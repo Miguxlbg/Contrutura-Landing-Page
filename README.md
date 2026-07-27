@@ -1,208 +1,129 @@
-# ESA RIO Construtora — Landing Page Premium
+# Lúmina Habitat — Experiência Institucional Conceitual para Engenharia
 
-Landing page de altíssimo padrão para a **ESA RIO Construtora**, construtora premium do Rio de Janeiro fundada em 2009 pelos diretores **Evandro Amorim** e **André Souza**.
+Landing page institucional fictícia criada como estudo de **design, conteúdo e desenvolvimento front-end** para o setor de engenharia, arquitetura e construção.
 
-> "Arquitetura que pertence ao Rio." — pedra, céu, mar, luz natural, premium com alma carioca.
+> **Aviso:** Lúmina Habitat não é uma empresa real. Marca, projetos, métricas e mensagens foram criados exclusivamente para demonstração em portfólio. O formulário não transmite nem armazena dados.
 
----
+## Visão do projeto
 
-## 🆕 Atualizações desta versão
+O projeto moderniza uma landing page legada sem abandonar sua estrutura original. A evolução concentrou-se em remover informações empresariais reais, organizar a narrativa, renovar a identidade visual, reduzir integrações desnecessárias e tornar a experiência mais consistente em desktop, tablet e mobile.
 
-### ✅ Correções aplicadas (problemas reportados)
-1. **Headline "Construindo o Rio do Futuro."** — não é mais cortada ao carregar.
-   - SplitText agora anima por **palavras inteiras** (não por caracteres), preservando quebras naturais.
-   - `word-break:keep-all` + `.word{white-space:nowrap}` impedem o corte vertical.
-   - `overflow-wrap:break-word` + `padding:0 12px` garantem respiro lateral.
-2. **Bolinhas/partículas atrás da logo no hero — REMOVIDAS.**
-   - O `<canvas id="hero-canvas">` foi removido do hero.
-   - Three.js agora renderiza apenas o **produto 3D estilo Nike** na seção "Por que a ESA RIO?".
-3. **Seção CTA "Pronto para encontrar seu próximo lar?" — refeita do zero.**
-   - **Removidos:** grid quadriculado animado, dots flutuantes (`cta-dots`), glow pulsante, animações em loop infinito que causavam lag.
-   - **Substituído por:** gradient azul profissional + skyline SVG estática + linha de luz horizontal sutil + parallax leve no scroll.
-   - Resultado: **performance ~60fps**, visual limpo e profissional.
-4. **Marquee de parceiros — não pausa mais no hover.** Animação contínua sem interrupção.
-5. **Logos pequenas (FURBAN, SEEDUC, Volta Redonda) — aumentadas.**
-   - Cards `.cliente-card` aumentados (`min-height:180px`, `padding:24px 18px`).
-   - `max-height` das imagens elevado para `130px` (e `140px` em `.logo-large`).
-   - FURBAN, SEEDUC e Volta Redonda receberam classe `.logo-large` para ocupar mais espaço.
-6. **Logo NAGA — agora versão fundo branco** (substituiu a versão escura).
-7. **Logo Pobre Juan — agora fundo branco com elementos pretos** (gerada via IA).
-8. **Badge do hero alterado:** "Construtora Premium · Rio de Janeiro" → **"Construtora · Rio de Janeiro"**.
-9. **FLB-AP + PDT adicionadas** ao marquee em **célula dupla** (`.partner-card.partner-double`):
-   - FLB-AP à esquerda + PDT à direita, dentro da mesma célula.
+### Principais melhorias
 
-### ✨ Novos recursos (avançados)
-1. **Lenis Smooth Scroll Engine** — scroll suave nativo (já estava ativo, mantido).
-2. **Parallax no background** — hero, about-image, emp-card-img e portfolio-card com parallax via GSAP ScrollTrigger.
-3. **WebGL / Three.js — Produto 3D interativo** (estilo Nike):
-   - Torre/edifício 3D representando obras ESA RIO (cubo azul + topo branco metálico + base preta + anel de luz cyan).
-   - Posicionado no canto superior direito da seção "Por que a ESA RIO?".
-   - Renderização **sob demanda** (apenas quando visível) via `IntersectionObserver`.
-   - Escondido em mobile/tablet (`<1024px`) para preservar performance.
-4. **Reveal de produto 3D ao scroll (estilo Nike)** — `ScrollTrigger.onUpdate` controla escala, rotação X/Y e opacidade conforme o usuário rola pela seção de diferenciais.
-5. **Split-text em headlines animadas** — todos os `<h2>` (exceto hero) animam palavra a palavra com stagger.
-6. **Seções com scroll horizontal** — `.portfolio-scroll` mantém scroll horizontal nativo com snap.
-7. **Meta Pixel + Google Ads** — tags configuradas no `<head>` (substituir `fb-pixel-id` e `AW-XXXXXX` pelos IDs reais).
-8. **Botões com setas animadas** — `.about-link`, `.conhecer`, `Ver Todos os Empreendimentos`, `Ver Portfólio Completo` ganharam transição de `gap` e mudança de cor no hover.
+- identidade fictícia original **Lúmina Habitat**;
+- conteúdo inteiramente conceitual, sem nomes, contatos ou resultados empresariais reais;
+- hierarquia visual e microcopy revisadas;
+- imagens locais com licenças abertas, sem hotlink de bancos de imagem;
+- formulário demonstrativo transparente, com validação no navegador e sem coleta de dados;
+- remoção de pixels, tags de anúncios, mapa, mensageiro flutuante, links sociais vazios e placeholders de produção;
+- navegação responsiva com menu mobile e estados de foco visíveis;
+- suporte a `prefers-reduced-motion`;
+- animações mais leves em dispositivos móveis;
+- loader reduzido para não bloquear a experiência;
+- favicon, metadados SEO e Open Graph atualizados.
 
----
+## Seções
 
-## 🎯 Funcionalidades atuais
+1. Hero com slideshow arquitetônico e chamadas principais
+2. Indicadores do conceito
+3. Apresentação da marca fictícia
+4. Projetos conceituais com filtros
+5. Princípios e diferenciais
+6. Serviços
+7. Estudos visuais em scroll horizontal
+8. Ecossistema de disciplinas
+9. Diretrizes de experiência em carrossel
+10. Setores e escalas de atuação
+11. CTA institucional
+12. Formulário demonstrativo
+13. Footer com aviso de projeto fictício
 
-### Páginas / Rotas
-- `/` (`index.html`) — Landing page única com 12 seções.
+## Stack e tecnologias
 
-### Seções implementadas
-1. **Loader** — barra de progresso + logo ESA RIO em caixa branca com glow ciano sutil.
-2. **Navbar** — fixed, transparente que escurece no scroll, logo em caixa branca compacta.
-3. **Hero** — slideshow Ken Burns + headline com split-text por palavras + parallax suave.
-4. **Credenciais** — 4 contadores animados (16+ anos, 80+ obras, 5000+ clientes, 100% prazo).
-5. **Sobre** — grid 2 colunas com parallax no retrato dos diretores.
-6. **Empreendimentos** — grid 3x2 com filtros (Todos / Lançamento / Em Obras / Entregues) + parallax nas imagens.
-7. **Diferenciais** — grid 3x2 + **produto 3D Three.js** (Nike-style, scroll reveal).
-8. **Portfólio** — scroll horizontal com snap (5 obras públicas).
-9. **Parceiros** — marquee infinito (NAGA, Reserva, Selfit, Pobre Juan + célula dupla FLB-AP/PDT).
-10. **Depoimentos** — carrossel com autoplay (3 slides).
-11. **Clientes** — grid 4 colunas (FURBAN, SEEDUC, Paraíba do Sul, Volta Redonda).
-12. **CTA Central** — gradiente azul + skyline SVG + parallax leve.
-13. **Contato** — formulário (Mailchimp-ready) + cards de contato (WhatsApp, e-mail, telefone, endereço).
-14. **Footer** — logo em caixa branca + 4 colunas + redes sociais + bottom legal.
-15. **Cookie consent** (LGPD/GDPR).
+| Tecnologia | Uso no projeto |
+| --- | --- |
+| **HTML5** | Estrutura semântica e conteúdo da página |
+| **CSS3** | Design system, Grid, Flexbox, `clamp()`, media queries e estados responsivos |
+| **JavaScript ES6+** | Navegação, filtros, carrossel, validação e interações |
+| **GSAP 3 + ScrollTrigger** | Revelações, parallax e animações vinculadas ao scroll |
+| **Three.js** | Objeto arquitetônico 3D na seção de diferenciais |
+| **Lenis** | Rolagem suave apenas em desktop compatível |
+| **Google Fonts** | Playfair Display e DM Sans |
+| **SVG** | Identidade visual, favicon, ícones e skyline |
 
----
+Não há framework, bundler ou etapa de build. A aplicação é estática e pode ser servida diretamente por qualquer servidor HTTP.
 
-## 🛣️ URIs funcionais
+## Design system
 
-| Caminho/Hash | Destino |
-|---|---|
-| `index.html#hero` | Início |
-| `index.html#sobre` | Seção Sobre |
-| `index.html#empreendimentos` | Empreendimentos |
-| `index.html#diferenciais` | Diferenciais (com 3D) |
-| `index.html#portfolio` | Portfólio (scroll horizontal) |
-| `index.html#parceiros` | Parceiros (marquee) |
-| `index.html#depoimentos` | Depoimentos |
-| `index.html#clientes` | Clientes |
-| `index.html#cta` | CTA Central |
-| `index.html#contato` | Formulário de contato |
+- **Azul principal:** `#2864FF`
+- **Azul profundo:** `#1646C8`
+- **Navy:** `#07111E`
+- **Menta de destaque:** `#90F3DF`
+- **Fundo claro:** `#F6F7FA`
+- **Tipografia de títulos:** Playfair Display
+- **Tipografia de interface:** DM Sans
+- **Container máximo:** `1280px`
 
-### Filtros (parâmetros via JS, não querystring)
-- Botões `.filter-tab` com `data-filter="all|lancamento|obras|entregue"` filtram cards `.emp-card[data-status]`.
+### Breakpoints principais
 
-### Eventos GTM/GA disparados (`dataLayer.push`)
-- `page_view`, `hero_view`, `cta_click`, `whatsapp_click`, `form_submit`, `cookie_consent`.
+- **Desktop:** acima de `1024px`
+- **Tablet:** até `1024px`
+- **Mobile:** até `640px`
+- **Mobile compacto:** até `390px`
 
----
+## Recursos de acessibilidade
 
-## 🎨 Design System
+- skip link para o conteúdo principal;
+- landmarks semânticos (`header`, `main`, `section`, `article`, `aside`, `footer`);
+- labels associados aos campos de formulário;
+- feedback do formulário com `role="status"` e `aria-live`;
+- menu mobile com `aria-expanded` e fechamento pela tecla `Esc`;
+- estados de foco com alto contraste;
+- áreas de toque mínimas em controles;
+- suporte à preferência de movimento reduzido;
+- contraste e hierarquia orientados às recomendações WCAG 2.2 AA.
 
-| Token | Valor |
-|---|---|
-| `--color-black` | `#0D0D0D` |
-| `--color-blue` | `#1B4FD8` |
-| `--color-blue-dark` | `#1340B0` |
-| `--color-blue-light` | `#E6EFFF` |
-| `--color-gold` | `#F0B429` |
-| `--font-serif` | Playfair Display |
-| `--font-sans` | DM Sans |
-| `--container` | `1280px` |
-| `--pad-y` | `120px` (desktop) / `80px` (tablet) / `64px` (mobile) |
+## Como executar localmente
 
-### Breakpoints
-- **Mobile:** `< 640px` — coluna única, botões 100%, logos menores.
-- **Tablet:** `640–1024px` — 2 colunas, padding reduzido.
-- **Desktop:** `> 1024px` — layout completo + produto 3D visível.
-
----
-
-## 📂 Estrutura de arquivos
-
+```bash
+python3 -m http.server 4173
 ```
-/
-├── index.html                  Landing page única (HTML+CSS+JS inline)
-├── README.md                   Este arquivo
+
+Acesse `http://localhost:4173`.
+
+Também é possível usar a extensão Live Server ou qualquer servidor estático equivalente.
+
+## Estrutura
+
+```text
+.
+├── index.html
+├── README.md
 └── images/
-    ├── logo-esa-rio.png        Logo principal ESA RIO (com fundo branco)
-    ├── logo-naga.png           NAGA — fundo branco
-    ├── logo-reserva.png        Reserva
-    ├── logo-selfit.png         Selfit Academia
-    ├── logo-pobrejuan.png      Pobre Juan — fundo branco, logo preta
-    ├── logo-flb-ap.png         FLB-AP (célula dupla)
-    ├── logo-pdt.png            PDT (célula dupla)
-    ├── logo-furban.png         FURBAN — Volta Redonda
-    ├── logo-seeduc.png         SEEDUC RJ
-    ├── logo-paraibadosul.png   Prefeitura Paraíba do Sul
-    └── logo-voltaredonda.png   Prefeitura Volta Redonda
+    ├── architecture-01.webp ... architecture-06.webp
+    ├── architecture-08.webp
+    ├── favicon.svg
+    └── logo-lumina-habitat.svg
 ```
 
----
+## Comportamento do formulário
 
-## 🛠️ Stack técnica
+O formulário valida nome, telefone e e-mail apenas no cliente. O envio é interceptado por JavaScript e exibe uma confirmação demonstrativa. Nenhum endpoint externo é chamado e nenhum dado é persistido.
 
-- **HTML5 semântico** — `<header>`, `<main>`, `<section>`, `<article>`, `<footer>`.
-- **CSS3** — variáveis, grid, flexbox, custom properties, `clamp()`, prefers-reduced-motion.
-- **JavaScript ES6+** — vanilla, sem build step.
-- **Bibliotecas (CDN jsDelivr):**
-  - **GSAP 3.12.5** + ScrollTrigger — animações performáticas.
-  - **Three.js r128** — produto 3D estilo Nike.
-  - **Lenis 1.0.42** — smooth scroll engine.
-- **Tracking:** Google Tag Manager + Meta Pixel + Google Ads gtag.
+## Créditos das imagens
 
----
+As fotografias arquitetônicas foram encontradas por pesquisa com filtro de licença Creative Commons/Public Domain e armazenadas localmente para evitar hotlink. Consulte as páginas de origem para autoria e termos completos:
 
-## ♿ Acessibilidade (WCAG AA)
+- [Fundação Iberê Camargo — Gustavo.kunst, CC BY-SA 3.0 / GFDL](https://commons.wikimedia.org/wiki/File:Fundacao-Ibere-Camargo01.jpg)
+- [CCBB Brasília](https://commons.wikimedia.org/wiki/File:CCBB_-_BSB_(8197422842).jpg)
+- [Auditório Ibirapuera](https://commons.wikimedia.org/wiki/File:Audit%C3%B3rio_Ibirapuera_Parque_do_Ibirapuera_S%C3%A3o_Paulo_2019-6180.jpg)
+- [FAU-USP — Fernando Stankuns](https://commons.wikimedia.org/wiki/File:Fau_usp.jpg)
+- [FAU-USP, imagem 04 — Mike Peel](https://commons.wikimedia.org/wiki/File:Architecture_and_Urbanism_College_of_University_of_S%C3%A3o_Paulo_2016_04.jpg)
+- [FAU-USP, imagem 01 — Mike Peel, CC BY-SA 4.0](https://commons.wikimedia.org/wiki/File:Architecture_and_Urbanism_College_of_University_of_S%C3%A3o_Paulo_2016_01.jpg)
+- [Edifício J23-A — HVL, CC BY 4.0](https://commons.wikimedia.org/wiki/File:Vista_do_Edif%C3%ADcio_J23-A_no_B._Cariru,_Ipatinga_MG.JPG)
 
-- Skip-link "Pular para o conteúdo".
-- HTML semântico (header/main/section/article/footer).
-- `alt` em todas as imagens.
-- `aria-label`, `aria-current`, `aria-expanded`, `aria-selected` em interativos.
-- Foco visível, navegação por teclado funcional (Esc fecha menu mobile).
-- `prefers-reduced-motion: reduce` desativa animações pesadas.
-- Botões com área de toque ≥ 44px.
-- Contraste mínimo WCAG AA respeitado.
+As imagens são usadas como referências visuais em um estudo fictício; não representam projetos da marca conceitual.
 
----
+## Licença do código
 
-## ⚡ Performance
-
-- **Sem dependências externas** além de CDNs (jsDelivr).
-- **CSS inline** em `<style>` (zero RTT extra).
-- **Imagens com `loading="lazy"`** em todas as logos e cards.
-- **Three.js renderiza sob demanda** (apenas quando produto 3D visível).
-- **Removidas animações infinitas pesadas** (cta-grid, cta-dots, cta-glow).
-- Marquee usa `transform:translateX` (GPU-accelerated).
-
----
-
-## 🚧 Não implementado / próximos passos
-
-1. **IDs reais de tracking** — substituir `GTM-XXXXXXX`, `fb-pixel-id`, `AW-XXXXXX` pelos IDs reais.
-2. **Action Mailchimp** — substituir `#mailchimp-action-placeholder` pela URL real.
-3. **Dados reais de empreendimentos** — substituir imagens stock do Pexels por fotos oficiais ESA RIO.
-4. **Página interna por empreendimento** — atualmente todos os "Conhecer →" levam ao formulário de contato.
-5. **Política de privacidade** — link `<a href="#">` no banner de cookies precisa apontar para página real.
-6. **Integração WhatsApp Business** — número (21) 99351-1000 funcional, mas pode integrar com chat widget.
-7. **CMS/Headless** — para a equipe ESA RIO publicar novos empreendimentos sem dev.
-8. **Open Graph / Cover real** — substituir `og-cover.jpg` placeholder.
-
----
-
-## 🚀 Deploy
-
-Para publicar o site, vá até a aba **Publish** do projeto — o deploy é feito com um clique.
-
----
-
-## 📞 Contatos ESA RIO Construtora
-
-- **WhatsApp:** (21) 99351-1000
-- **Evandro Amorim (Diretor):** (24) 98142-3825
-- **André Souza (Diretor):** (21) 97693-7843
-- **E-mail:** construtora.esario@gmail.com
-- **Endereço:** Av. Dr. Randolfo Pena, 1118 — Jatobá — Paraíba do Sul/RJ — CEP 25850-000
-- **Filial:** Nova Iguaçu/RJ
-- **Instagram:** [@construtoraesa](https://instagram.com/construtoraesa)
-
----
-
-© 2025 ESA RIO Construtora — Construído com ♥ no Rio de Janeiro.
+Este repositório é destinado à apresentação em portfólio. As fotografias mantêm as licenças indicadas por seus autores nas páginas de origem.
