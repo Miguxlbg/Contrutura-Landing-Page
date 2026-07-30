@@ -162,8 +162,8 @@ section{padding:var(--pad-y) 0;position:relative}
   /* Marquee GPU-only */
   .marquee-track{ will-change:transform; }
 
-  /* Portfolio overlay desativado em mobile */
-  .portfolio-card:hover .pf-overlay{ opacity:0; }
+  /* Conteúdo do portfólio permanece legível em dispositivos touch */
+  .portfolio-card .pf-overlay{ transform:none; }
 
   /* Depoimento sem transition pesada */
   .dep-slide{ transition:opacity .3s ease; }
@@ -694,35 +694,35 @@ section{padding:var(--pad-y) 0;position:relative}
   flex:0 0 calc((100% - 24px*2.5) / 3.5);
   scroll-snap-align:start;
   height:480px;border-radius:var(--radius-card);
-  position:relative;overflow:hidden;cursor:pointer;
+  position:relative;overflow:hidden;cursor:default;
+  border:1px solid rgba(255,255,255,.1);
+  background:#101927;
 }
 .portfolio-card .pf-bg{
   position:absolute;inset:0;
-  display:flex;align-items:flex-end;justify-content:flex-start;
-  padding:32px;color:#fff;
   background-size:cover;background-position:center;
-  transition:transform .8s ease;
+  transition:transform .7s cubic-bezier(.22,1,.36,1),filter .45s ease;
 }
 .portfolio-card .pf-bg::before{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg, rgba(13,13,13,0.05) 0%, rgba(13,13,13,0.55) 60%, rgba(13,13,13,0.92) 100%);
-  z-index:1;
+  background:linear-gradient(180deg,rgba(7,17,30,.02) 35%,rgba(7,17,30,.88) 100%);
 }
-.portfolio-card .pf-name{
-  font-family:var(--font-serif);font-size:30px;font-weight:600;line-height:1.2;
-  position:relative;z-index:2;
-}
+.portfolio-card .pf-name{display:none}
 .portfolio-card .pf-overlay{
-  position:absolute;inset:0;
-  background:rgba(27,79,216,0.92);
-  display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;
-  padding:32px;color:#fff;
-  opacity:0;transition:opacity .4s ease;
+  position:absolute;left:0;right:0;bottom:0;
+  min-height:148px;padding:26px 28px 24px;color:#fff;
+  display:grid;grid-template-columns:1fr auto;align-items:end;gap:8px 20px;
+  border-top:2px solid transparent;
+  background:linear-gradient(180deg,transparent 0%,rgba(7,17,30,.78) 22%,rgba(7,17,30,.96) 100%);
+  transition:transform .45s cubic-bezier(.22,1,.36,1),border-color .35s ease;
 }
-.portfolio-card .pf-overlay h3{font-size:28px;margin-bottom:8px}
-.portfolio-card .pf-overlay span{font-size:14px;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
-.portfolio-card:hover .pf-overlay{opacity:1}
-.portfolio-card:hover .pf-bg{transform:scale(1.05)}
+.portfolio-card .pf-overlay h3{font-size:27px;margin:0;grid-column:1/-1}
+.portfolio-card .pf-meta{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.68)}
+.portfolio-card .pf-action{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;white-space:nowrap}
+.portfolio-card .pf-action b{display:inline-block;margin-left:6px;color:var(--color-blue);transition:transform .3s ease}
+.portfolio-card:hover .pf-bg,.portfolio-card:focus-visible .pf-bg{transform:scale(1.018);filter:brightness(.86)}
+.portfolio-card:hover .pf-overlay,.portfolio-card:focus-visible .pf-overlay{transform:translateY(-6px);border-color:var(--color-blue)}
+.portfolio-card:hover .pf-action b,.portfolio-card:focus-visible .pf-action b{transform:translateX(5px)}
 .portfolio-cta{text-align:center;margin-top:40px}
 
 /* ═══════════════════════════════════════════════════════════════
@@ -858,24 +858,14 @@ section{padding:var(--pad-y) 0;position:relative}
   content:'';
   position:absolute;inset:0;z-index:0;pointer-events:none;
   background-image:
-    linear-gradient(rgba(27,79,216,0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(27,79,216,0.07) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
   background-size:80px 80px;
-  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
 }
 
 .cta-central::after{
-  content:'';
-  position:absolute;
-  top:0;left:50%;transform:translateX(-50%);
-  width:min(900px, 100vw);height:600px;
-  background:
-    radial-gradient(ellipse 55% 45% at 50% 30%, rgba(27,79,216,0.45) 0%, transparent 65%),
-    radial-gradient(ellipse 35% 30% at 35% 55%, rgba(0,60,200,0.20) 0%, transparent 60%),
-    radial-gradient(ellipse 35% 30% at 65% 55%, rgba(0,60,200,0.20) 0%, transparent 60%);
-  filter:blur(40px);
-  z-index:1;pointer-events:none;
-  animation:ctaGlowBreath 8s ease-in-out infinite alternate;
+  content:'';position:absolute;left:0;right:0;top:0;height:2px;
+  background:var(--color-blue);z-index:1;pointer-events:none;
 }
 
 /* Linha decorativa horizontal — topo do container */
@@ -915,31 +905,6 @@ section{padding:var(--pad-y) 0;position:relative}
   vertical-align:bottom;
 }
 
-/* Aurora */
-.cta-aurora{position:absolute;inset:0;z-index:1;pointer-events:none;}
-
-@keyframes ctaGlowBreath{
-  0%  { opacity:.7; transform:translateX(-50%) scale(1)   }
-  50% { opacity:1;  transform:translateX(-50%) scale(1.05)}
-  100%{ opacity:.75;transform:translateX(-50%) scale(0.97)}
-}
-
-/* Partículas */
-.cta-particles{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden;}
-.cta-particle{
-  position:absolute;border-radius:50%;
-  background:rgba(120,180,255,0.7);
-  filter:blur(0.5px);
-  animation:particleRise linear infinite;
-  will-change:transform,opacity;
-}
-@keyframes particleRise{
-  0%  {transform:translateY(0) translateX(0);opacity:0}
-  10% {opacity:1}
-  90% {opacity:.6}
-  100%{transform:translateY(-90vh) translateX(var(--drift));opacity:0}
-}
-
 /* Container relativo */
 .cta-central .container{position:relative;z-index:5}
 
@@ -950,7 +915,7 @@ section{padding:var(--pad-y) 0;position:relative}
   margin-bottom:28px;
   max-width:900px;margin-left:auto;margin-right:auto;
   line-height:1.08;letter-spacing:-2px;
-  text-shadow:0 2px 60px rgba(27,79,216,0.5), 0 0 120px rgba(100,160,255,0.2);
+  text-shadow:0 2px 24px rgba(0,0,0,.25);
 }
 .cta-badge{
   display:inline-flex;align-items:center;gap:8px;
@@ -993,7 +958,7 @@ section{padding:var(--pad-y) 0;position:relative}
 .cta-central .btn-primary{
   font-size:13px;letter-spacing:.18em;
   padding:20px 52px;
-  background:linear-gradient(135deg, #2864FF 0%, #0e35a0 100%);
+  background:var(--color-blue);
   border:1px solid rgba(255,255,255,0.15);
   box-shadow:
     0 0 0 1px rgba(27,79,216,0.4),
@@ -1020,18 +985,6 @@ section{padding:var(--pad-y) 0;position:relative}
 
 /* Wrap do botão */
 .cta-btn-glow{position:relative;display:inline-block;}
-.cta-btn-glow::before{
-  content:'';
-  position:absolute;inset:-16px;
-  background:radial-gradient(ellipse,rgba(27,79,216,0.4) 0%,transparent 65%);
-  border-radius:var(--radius-btn);
-  animation:btnGlow 3s ease-in-out infinite alternate;
-  pointer-events:none;z-index:-1;
-}
-@keyframes btnGlow{
-  from{opacity:.5;transform:scale(1)}
-  to{opacity:.9;transform:scale(1.1)}
-}
 
 /* Info abaixo do botão */
 .cta-trust{
@@ -1499,9 +1452,12 @@ section[id]{scroll-margin-top:88px}
 <!-- ═══════════════════════════════════════════════════════════════
      LOADING SCREEN
      ═══════════════════════════════════════════════════════════════ -->
-<div id="loader" role="status" aria-label="Carregando">
-  <div class="loader-logo"><img src="images/logo-lumina-habitat.svg" alt="Lúmina Habitat"></div>
-  <div id="loading-bar-wrap"><div id="loading-bar"></div></div>
+<div id="loader" role="status" aria-label="Carregando Construtora">
+  <div class="loader-frame">
+    <div class="loader-logo"><img src="images/logo-construtora.svg" alt="Construtora"></div>
+    <div class="loader-kicker"><span>Preparando o projeto</span><span id="loading-percent">00%</span></div>
+    <div id="loading-bar-wrap"><div id="loading-bar"></div></div>
+  </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════
@@ -1509,21 +1465,21 @@ section[id]{scroll-margin-top:88px}
      ═══════════════════════════════════════════════════════════════ -->
 <header class="navbar" id="navbar">
   <div class="nav-inner">
-    <a href="#" class="nav-logo" aria-label="Lúmina Habitat — início">
-      <img src="images/logo-lumina-habitat.svg" alt="Lúmina Habitat">
+    <a href="#" class="nav-logo" aria-label="Construtora — início">
+      <img src="images/logo-construtora.svg" alt="Construtora">
     </a>
     <nav>
       <ul class="nav-links" id="nav-links" role="menubar">
-        <li role="none"><a role="menuitem" href="#empreendimentos" aria-current="page"><span class="nav-num">01</span>Empreendimentos<span class="nav-arrow">→</span></a></li>
-        <li role="none"><a role="menuitem" href="#servicos"><span class="nav-num">02</span>Serviços<span class="nav-arrow">→</span></a></li>
-        <li role="none"><a role="menuitem" href="#sobre"><span class="nav-num">03</span>Sobre<span class="nav-arrow">→</span></a></li>
-        <li role="none"><a role="menuitem" href="#diferenciais"><span class="nav-num">04</span>Diferenciais<span class="nav-arrow">→</span></a></li>
+        <li role="none"><a role="menuitem" href="#sobre" aria-current="page"><span class="nav-num">01</span>Sobre<span class="nav-arrow">→</span></a></li>
+        <li role="none"><a role="menuitem" href="#empreendimentos"><span class="nav-num">02</span>Empreendimentos<span class="nav-arrow">→</span></a></li>
+        <li role="none"><a role="menuitem" href="#diferenciais"><span class="nav-num">03</span>Diferenciais<span class="nav-arrow">→</span></a></li>
+        <li role="none"><a role="menuitem" href="#servicos"><span class="nav-num">04</span>Serviços<span class="nav-arrow">→</span></a></li>
         <li role="none"><a role="menuitem" href="#portfolio"><span class="nav-num">05</span>Portfólio<span class="nav-arrow">→</span></a></li>
         <li role="none"><a role="menuitem" href="#contato"><span class="nav-num">06</span>Contato<span class="nav-arrow">→</span></a></li>
       </ul>
     </nav>
     <div class="nav-cta">
-      <a href="#contato" class="btn btn-primary">Fale com a Lúmina</a>
+      <a href="#contato" class="btn btn-primary">Solicitar orçamento</a>
       <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -1538,7 +1494,7 @@ section[id]{scroll-margin-top:88px}
      ═══════════════════════════════════════════════════════════════ -->
 <section class="hero" id="hero">
   <div class="hero-bg" id="hero-bg">
-    <!-- Slideshow institucional Lúmina Habitat: imagens em loop com Ken Burns -->
+    <!-- Slideshow institucional Construtora: imagens em loop com Ken Burns -->
     <div class="hero-slideshow" id="hero-slideshow" aria-hidden="true">
       <div class="hero-slide active" style="background-image:url('images/architecture-01.webp');"></div>
       <div class="hero-slide" style="background-image:url('images/architecture-02.webp');"></div>
@@ -1554,7 +1510,7 @@ section[id]{scroll-margin-top:88px}
     <p class="hero-subtitle" id="hero-subtitle">Projetamos e construímos espaços que unem precisão técnica, identidade e qualidade de vida.</p>
     <div class="hero-buttons" id="hero-buttons">
       <a href="#empreendimentos" class="btn btn-primary">Conheça nossos projetos</a>
-      <a href="#sobre" class="btn btn-secondary">Sobre a Lúmina →</a>
+      <a href="#sobre" class="btn btn-secondary">Sobre a Construtora →</a>
     </div>
   </div>
   <div class="scroll-indicator" aria-hidden="true">
@@ -1568,7 +1524,7 @@ section[id]{scroll-margin-top:88px}
 <!-- ═══════════════════════════════════════════════════════════════
      SEÇÃO 03 — CREDENCIAIS
      ═══════════════════════════════════════════════════════════════ -->
-<section class="credentials" id="credentials" aria-label="Destaques da Lúmina Habitat">
+<section class="credentials" id="credentials" aria-label="Destaques da Construtora">
   <div class="container">
     <div class="credentials-grid">
       <article class="credential-card reveal-stagger">
@@ -1610,15 +1566,15 @@ section[id]{scroll-margin-top:88px}
 <section class="about" id="sobre">
   <div class="container">
     <div class="about-grid">
-      <div class="about-image reveal-left" aria-label="Equipe Lúmina Habitat" data-parallax="0.15">
+      <div class="about-image reveal-left" aria-label="Equipe Construtora" data-parallax="0.15">
         <div class="img-inner" style="background-image:url('images/architecture-06.webp');">
           <span>Estratégia, projeto e execução<br><small style="font-family:var(--font-sans);font-size:13px;letter-spacing:.1em;text-transform:uppercase;opacity:.85">Engenharia que valoriza cada detalhe</small></span>
         </div>
       </div>
       <div class="about-text reveal-right">
-        <span class="eyebrow">Sobre a Lúmina</span>
+        <span class="eyebrow">Sobre a Construtora</span>
         <h2>Engenharia com presença.</h2>
-        <p><strong>Lúmina Habitat</strong> integra engenharia, arquitetura e gestão para desenvolver espaços eficientes, duradouros e conectados à vida de quem os utiliza.</p>
+        <p><strong>Construtora</strong> integra engenharia, arquitetura e gestão para desenvolver espaços eficientes, duradouros e conectados à vida de quem os utiliza.</p>
         <p>Do primeiro estudo à entrega, cada etapa é conduzida com planejamento, transparência e atenção aos detalhes que definem uma obra de qualidade.</p>
         <p>Atuamos em projetos residenciais, comerciais, institucionais e urbanos, reunindo visão estratégica e excelência técnica.</p>
         <a href="#portfolio" class="about-link">Conheça nossos projetos →</a>
@@ -1712,13 +1668,10 @@ section[id]{scroll-margin-top:88px}
      SEÇÃO 06 — DIFERENCIAIS
      ═══════════════════════════════════════════════════════════════ -->
 <section class="diferenciais" id="diferenciais">
-  <div class="product-3d-wrap" aria-hidden="true">
-    <div id="product-3d"></div>
-  </div>
   <div class="container">
     <div class="section-head reveal">
       <span class="eyebrow">Nossos diferenciais</span>
-      <h2>O que orienta a Lúmina?</h2>
+      <h2>O que orienta a Construtora?</h2>
       <p>Competência técnica, proximidade e responsabilidade para transformar cada projeto em uma entrega consistente.</p>
     </div>
     <div class="dif-grid">
@@ -1762,7 +1715,7 @@ section[id]{scroll-margin-top:88px}
 <!-- ═══════════════════════════════════════════════════════════════
      SEÇÃO — SERVIÇOS (estrutura idêntica à Diferenciais, fundo preto)
      ═══════════════════════════════════════════════════════════════ -->
-<section class="servicos" id="servicos" aria-label="Serviços Lúmina Habitat">
+<section class="servicos" id="servicos" aria-label="Serviços Construtora">
   <div class="container">
     <div class="section-head reveal">
       <span class="eyebrow">O que fazemos</span>
@@ -1833,23 +1786,23 @@ section[id]{scroll-margin-top:88px}
   <div class="portfolio-scroll" id="portfolio-scroll" tabindex="0" aria-label="Portfólio - role horizontalmente">
     <article class="portfolio-card">
       <div class="pf-bg" style="background-image:url('images/architecture-05.webp');"><div class="pf-name" style="position:relative;z-index:2">Casa Pátio<br>Residencial</div></div>
-      <div class="pf-overlay"><h3>Casa Pátio</h3><span>Moradia e paisagem · Projeto Lúmina</span></div>
+      <div class="pf-overlay"><h3>Casa Pátio</h3><span>Moradia e paisagem · Projeto Construtora</span></div>
     </article>
     <article class="portfolio-card">
       <div class="pf-bg" style="background-image:url('images/architecture-06.webp');"><div class="pf-name" style="position:relative;z-index:2">Galeria Norte<br>Comercial</div></div>
-      <div class="pf-overlay"><h3>Galeria Norte</h3><span>Uso misto · Projeto Lúmina</span></div>
+      <div class="pf-overlay"><h3>Galeria Norte</h3><span>Uso misto · Projeto Construtora</span></div>
     </article>
     <article class="portfolio-card">
       <div class="pf-bg" style="background-image:url('images/architecture-08.webp');"><div class="pf-name" style="position:relative;z-index:2">Núcleo Orbe<br>Institucional</div></div>
-      <div class="pf-overlay"><h3>Núcleo Orbe</h3><span>Equipamento coletivo · Projeto Lúmina</span></div>
+      <div class="pf-overlay"><h3>Núcleo Orbe</h3><span>Equipamento coletivo · Projeto Construtora</span></div>
     </article>
     <article class="portfolio-card">
       <div class="pf-bg" style="background-image:url('images/architecture-08.webp');"><div class="pf-name" style="position:relative;z-index:2">Pavilhão Lume<br>Cultural</div></div>
-      <div class="pf-overlay"><h3>Pavilhão Lume</h3><span>Cultura e encontro · Projeto Lúmina</span></div>
+      <div class="pf-overlay"><h3>Pavilhão Lume</h3><span>Cultura e encontro · Projeto Construtora</span></div>
     </article>
     <article class="portfolio-card">
       <div class="pf-bg" style="background-image:url('images/architecture-01.webp');"><div class="pf-name" style="position:relative;z-index:2">Vetor Log<br>Industrial</div></div>
-      <div class="pf-overlay"><h3>Vetor Log</h3><span>Eficiência operacional · Projeto Lúmina</span></div>
+      <div class="pf-overlay"><h3>Vetor Log</h3><span>Eficiência operacional · Projeto Construtora</span></div>
     </article>
   </div>
   <div class="container portfolio-cta">
@@ -1860,27 +1813,23 @@ section[id]{scroll-margin-top:88px}
 <!-- ═══════════════════════════════════════════════════════════════
      PARCEIROS — marquee infinito
      ═══════════════════════════════════════════════════════════════ -->
-<section class="parceiros" id="parceiros" aria-label="Disciplinas de atuação da Lúmina Habitat">
+<section class="parceiros" id="tecnologias" aria-label="Tecnologias utilizadas no projeto">
   <div class="container">
     <div class="section-head reveal">
-      <span class="eyebrow">Visão integrada</span>
-      <h2>Um ecossistema, várias disciplinas</h2>
-      <p>Competências que se conectam para tornar decisões mais claras e entregas mais consistentes.</p>
+      <span class="eyebrow">Construção digital</span>
+      <h2>Tecnologia a serviço da experiência</h2>
+      <p>Uma base front-end leve, acessível e independente de serviços externos para sustentar conteúdo, movimento e desempenho.</p>
     </div>
   </div>
-  <div class="marquee" aria-label="Disciplinas do projeto">
-    <div class="marquee-track" id="marquee-track">
-      <div class="partner-card discipline-card">Arquitetura</div>
-      <div class="partner-card discipline-card">Engenharia</div>
-      <div class="partner-card discipline-card">Planejamento</div>
-      <div class="partner-card discipline-card">Sustentabilidade</div>
-      <div class="partner-card discipline-card">Tecnologia BIM</div>
-      <div class="partner-card discipline-card" aria-hidden="true">Arquitetura</div>
-      <div class="partner-card discipline-card" aria-hidden="true">Engenharia</div>
-      <div class="partner-card discipline-card" aria-hidden="true">Planejamento</div>
-      <div class="partner-card discipline-card" aria-hidden="true">Sustentabilidade</div>
-      <div class="partner-card discipline-card" aria-hidden="true">Tecnologia BIM</div>
-    </div>
+  <div class="tech-grid" aria-label="Stack do projeto">
+    <article class="tech-card"><span>01</span><strong>HTML5</strong><small>Estrutura semântica e acessível.</small></article>
+    <article class="tech-card"><span>02</span><strong>CSS3</strong><small>Layout responsivo e scroll-driven motion.</small></article>
+    <article class="tech-card"><span>03</span><strong>JavaScript ES6+</strong><small>Interações sem framework.</small></article>
+    <article class="tech-card"><span>04</span><strong>GSAP</strong><small>Loader, hero e microinterações.</small></article>
+    <article class="tech-card"><span>05</span><strong>ScrollTrigger</strong><small>Revelações orientadas pela leitura.</small></article>
+    <article class="tech-card"><span>06</span><strong>Lenis</strong><small>Rolagem suave em desktop.</small></article>
+    <article class="tech-card"><span>07</span><strong>SVG</strong><small>Marca e ícones vetoriais.</small></article>
+    <article class="tech-card"><span>08</span><strong>WebP</strong><small>Imagens locais otimizadas.</small></article>
   </div>
 </section>
 
@@ -1906,7 +1855,7 @@ section[id]{scroll-margin-top:88px}
           <p class="dep-quote">“Informação técnica também pode ser simples, elegante e fácil de navegar.”</p>
           <div class="dep-author">
             <div class="dep-avatar">01</div>
-            <div class="dep-meta"><strong>Clareza primeiro</strong><span>Compromisso Lúmina</span></div>
+            <div class="dep-meta"><strong>Clareza primeiro</strong><span>Compromisso Construtora</span></div>
           </div>
         </article>
         <article class="dep-slide">
@@ -1920,7 +1869,7 @@ section[id]{scroll-margin-top:88px}
           <p class="dep-quote">“Movimento deve orientar a leitura — nunca atrasar a experiência.”</p>
           <div class="dep-author">
             <div class="dep-avatar">02</div>
-            <div class="dep-meta"><strong>Decisões com propósito</strong><span>Compromisso Lúmina</span></div>
+            <div class="dep-meta"><strong>Decisões com propósito</strong><span>Compromisso Construtora</span></div>
           </div>
         </article>
         <article class="dep-slide">
@@ -1934,7 +1883,7 @@ section[id]{scroll-margin-top:88px}
           <p class="dep-quote">“Cada tela deve manter hierarquia, conforto de leitura e uma ação evidente.”</p>
           <div class="dep-author">
             <div class="dep-avatar">03</div>
-            <div class="dep-meta"><strong>Qualidade de ponta a ponta</strong><span>Compromisso Lúmina</span></div>
+            <div class="dep-meta"><strong>Qualidade de ponta a ponta</strong><span>Compromisso Construtora</span></div>
           </div>
         </article>
       </div>
@@ -1958,7 +1907,7 @@ section[id]{scroll-margin-top:88px}
 <!-- ═══════════════════════════════════════════════════════════════
      CLIENTES — grid grandes clientes
      ═══════════════════════════════════════════════════════════════ -->
-<section class="clientes" id="clientes" aria-label="Setores atendidos pela Lúmina Habitat">
+<section class="clientes" id="clientes" aria-label="Setores atendidos pela Construtora">
   <div class="container">
     <div class="section-head reveal">
       <span class="eyebrow">Áreas de atuação</span>
@@ -1978,9 +1927,6 @@ section[id]{scroll-margin-top:88px}
      SEÇÃO 10 — CTA CENTRAL
      ═══════════════════════════════════════════════════════════════ -->
 <section class="cta-central" id="cta">
-  <!-- Aurora de fundo -->
-  <div class="cta-aurora" aria-hidden="true"></div>
-
   <div class="container">
     <h2 id="cta-title">Vamos construir o próximo espaço?</h2>
     <div class="cta-badge"><span class="cta-badge-dot"></span>Novos projetos em avaliação</div>
@@ -2101,7 +2047,7 @@ section[id]{scroll-margin-top:88px}
         </div>
       </form>
 
-      <aside class="contato-info" aria-label="Diferenciais do atendimento Lúmina Habitat">
+      <aside class="contato-info" aria-label="Diferenciais do atendimento Construtora">
         <div class="contato-info-card">
           <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
           <div><h4>Atendimento consultivo</h4><p>Entendemos objetivos, prioridades e contexto antes de propor cada solução.</p></div>
@@ -2129,7 +2075,7 @@ section[id]{scroll-margin-top:88px}
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
-        <div class="footer-logo-box"><img src="images/logo-lumina-habitat.svg" alt="Lúmina Habitat" loading="lazy"></div>
+        <div class="footer-logo-box"><img src="images/logo-construtora.svg" alt="Construtora" loading="lazy"></div>
         <p>Construtora premium do Rio de Janeiro. Design + engenharia entregando obras com técnica, transparência e responsabilidade.</p>
         </div>
       <div class="footer-col">
@@ -2145,11 +2091,11 @@ section[id]{scroll-margin-top:88px}
       <div class="footer-col">
         <h4>Explorar</h4>
         <ul>
-          <li><a href="#empreendimentos">Lançamentos</a></li>
-          <li><a href="#empreendimentos">Em obras</a></li>
-          <li><a href="#empreendimentos">Entregues</a></li>
-          <li><a href="#empreendimentos">Institucional</a></li>
-          <li><a href="#empreendimentos">Industrial</a></li>
+          <li><a href="#empreendimentos" data-filter-link="lancamento">Lançamentos</a></li>
+          <li><a href="#empreendimentos" data-filter-link="obras">Em obras</a></li>
+          <li><a href="#empreendimentos" data-filter-link="entregue">Entregues</a></li>
+          <li><a href="#portfolio">Estudos visuais</a></li>
+          <li><a href="#tecnologias">Tecnologias</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -2163,8 +2109,8 @@ section[id]{scroll-margin-top:88px}
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 Lúmina Habitat. Todos os direitos reservados.</span>
-      <span>Engenharia que transforma espaços</span>
+      <span>© 2026 Construtora. Todos os direitos reservados.</span>
+      <span>Projeto conceitual para portfólio.</span>
     </div>
   </div>
 </footer>
@@ -2190,7 +2136,7 @@ const isMobile = window.innerWidth < 1024 || isTouch;
 (function(){
   const loader = document.getElementById('loader');
   const bar = document.getElementById('loading-bar');
-  const seen = sessionStorage.getItem('lumina_loaded');
+  const seen = sessionStorage.getItem('construtora_loaded');
 
   if(seen){
     loader.style.display = 'none';
@@ -2207,7 +2153,7 @@ const isMobile = window.innerWidth < 1024 || isTouch;
           onComplete: () => {
             loader.style.display = 'none';
             document.body.style.overflow = '';
-            sessionStorage.setItem('lumina_loaded', '1');
+            sessionStorage.setItem('construtora_loaded', '1');
             initAnimations();
           }
         });
@@ -2222,7 +2168,7 @@ const isMobile = window.innerWidth < 1024 || isTouch;
       setTimeout(() => {
         loader.style.display = 'none';
         document.body.style.overflow = '';
-        sessionStorage.setItem('lumina_loaded','1');
+        sessionStorage.setItem('construtora_loaded','1');
         initAnimations();
       }, 600);
     }, 700);
@@ -2315,7 +2261,7 @@ document.addEventListener('keydown', e => {
 /* ════════════════════════════════════════════════════════════════
    6. THREE.JS — PRODUCT 3D REVEAL (interativo)
    Cubo de vidro/cristal flutuante revelado ao scroll na seção
-   "Por que Lúmina Habitat". Renderização sob demanda apenas quando visível.
+   "Por que Construtora". Renderização sob demanda apenas quando visível.
    ════════════════════════════════════════════════════════════════ */
 let threeAnimating = false;
 function initThreeProduct(){
@@ -2345,7 +2291,7 @@ function initThreeProduct(){
   back.position.set(-4, -2, -3);
   scene.add(back);
 
-  // Edifício/torre estilizado (representando construção Lúmina Habitat)
+  // Edifício/torre estilizado (representando construção Construtora)
   const group = new THREE.Group();
 
   const tower = new THREE.Mesh(
