@@ -8,8 +8,8 @@
 <!-- ═══════════════════════════════════════════════════════════════
      SEO ON-PAGE
      ═══════════════════════════════════════════════════════════════ -->
-<title>Lúmina Habitat | Engenharia, arquitetura e construção</title>
-<meta name="description" content="A Lúmina Habitat integra engenharia, arquitetura e gestão para criar espaços residenciais, comerciais e institucionais com qualidade e precisão.">
+<title>Construtora | Engenharia, arquitetura e construção</title>
+<meta name="description" content="A Construtora integra engenharia, arquitetura e gestão para criar espaços residenciais, comerciais e institucionais com qualidade e precisão.">
 <meta name="keywords" content="construtora, engenharia, arquitetura, construção civil, projetos residenciais, projetos comerciais">
 <meta name="author" content="Miguxlbg">
 <meta name="theme-color" content="#07111E">
@@ -20,30 +20,24 @@
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Lúmina Habitat | Experiência digital para construção">
+<meta property="og:title" content="Construtora | Engenharia, arquitetura e construção">
 <meta property="og:description" content="Engenharia, arquitetura e gestão integradas para transformar projetos em espaços duradouros.">
 <meta property="og:image" content="images/architecture-02.webp">
 
 <meta property="og:locale" content="pt_BR">
-<meta property="og:site_name" content="Lúmina Habitat">
+<meta property="og:site_name" content="Construtora">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Lúmina Habitat | Experiência digital para construção">
+<meta name="twitter:title" content="Construtora | Engenharia, arquitetura e construção">
 <meta name="twitter:description" content="Engenharia, arquitetura e gestão integradas para transformar projetos em espaços duradouros.">
 <meta name="twitter:image" content="images/architecture-02.webp">
 
 
-<!-- Google Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<!-- Bibliotecas obrigatórias via CDN -->
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<!-- Dependências locais: a página funciona sem CDNs ou hotlinks -->
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/lenis.min.js"></script>
 
 <style>
 /* ═══════════════════════════════════════════════════════════════
@@ -58,8 +52,8 @@
   --color-gray: #F6F7FA;
   --color-muted: #526174;
   --color-gold: #90F3DF;
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: Georgia, 'Times New Roman', serif;
+  --font-sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --container: 1280px;
   --pad-x: 40px;
   --pad-y: 120px;
@@ -179,26 +173,39 @@ section{padding:var(--pad-y) 0;position:relative}
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   LOADING SCREEN
+   LOADING SCREEN — linguagem de desenho técnico
    ═══════════════════════════════════════════════════════════════ */
 #loader{
   position:fixed;inset:0;z-index:10000;
-  background:var(--color-black);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;
+  background-color:var(--color-black);
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:64px 64px;
+  display:grid;place-items:center;
+  color:#fff;
 }
-#loader .loader-logo{
-  display:flex;align-items:center;justify-content:center;
-  background:transparent;
-  padding:0;
-  border-radius:0;
-  box-shadow:none;
-  overflow:visible;
+.loader-frame{
+  width:min(460px,calc(100vw - 48px));
+  padding:42px;
+  border:1px solid rgba(255,255,255,.14);
+  position:relative;
 }
-#loader .loader-logo img{
-  width:180px;height:auto;display:block;
+.loader-frame::before,.loader-frame::after{
+  content:'';position:absolute;background:var(--color-blue);
 }
-#loading-bar-wrap{width:200px;height:2px;background:rgba(255,255,255,0.12);overflow:hidden}
-#loading-bar{height:100%;width:0;background:var(--color-blue)}
+.loader-frame::before{width:28px;height:2px;left:-1px;top:-1px}
+.loader-frame::after{width:2px;height:28px;left:-1px;top:-1px}
+#loader .loader-logo{display:flex;align-items:center;justify-content:flex-start;overflow:hidden}
+#loader .loader-logo img{width:260px;height:auto;display:block;transform-origin:left center}
+.loader-kicker{
+  display:flex;justify-content:space-between;gap:24px;margin-top:34px;
+  font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);
+}
+#loading-bar-wrap{width:100%;height:2px;margin-top:12px;background:rgba(255,255,255,.12);overflow:hidden}
+#loading-bar{height:100%;width:0;background:var(--color-blue);transform-origin:left}
+#loading-percent{color:#fff;font-variant-numeric:tabular-nums}
 
 /* ═══════════════════════════════════════════════════════════════
    SEÇÃO 01 — NAVBAR
@@ -441,8 +448,6 @@ section{padding:var(--pad-y) 0;position:relative}
   content:'';position:absolute;inset:0;
   background:linear-gradient(180deg, rgba(13,13,13,0.3) 0%, rgba(13,13,13,0.1) 50%, rgba(13,13,13,0.85) 100%);
 }
-/* Canvas WebGL — usado apenas para o cubo 3D interativo (NÃO no hero) */
-#hero-canvas{display:none}
 .hero-content{
   position:relative;z-index:4;text-align:center;color:#fff;
   max-width:980px;padding:0 var(--pad-x);
@@ -641,21 +646,12 @@ section{padding:var(--pad-y) 0;position:relative}
 .empreendimentos-cta{text-align:center;margin-top:60px}
 
 /* ═══════════════════════════════════════════════════════════════
-   SEÇÃO 06 — DIFERENCIAIS (com produto 3D interativo)
+   SEÇÃO 06 — DIFERENCIAIS
    ═══════════════════════════════════════════════════════════════ */
 .diferenciais{background:#fff;position:relative;overflow:hidden}
-.product-3d-wrap{
-  position:absolute;top:0;right:-40px;z-index:0;
-  width:420px;height:420px;
-  pointer-events:none;
-  opacity:0;
-  transition:opacity .6s ease;
-}
-#product-3d{width:100%;height:100%;display:block}
 .diferenciais .container{position:relative;z-index:1}
-@media (max-width: 1024px){
-  .product-3d-wrap{display:none}
-}
+.dif-card{border-color:#E4E8EE}
+.dif-card:hover{border-color:rgba(40,100,255,.5);transform:translateY(-4px);box-shadow:0 18px 42px rgba(7,17,30,.08)}
 .dif-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:60px;position:relative;z-index:1}
 .dif-card{
   padding:40px 32px;background:#fff;border-radius:var(--radius-card);
@@ -730,52 +726,28 @@ section{padding:var(--pad-y) 0;position:relative}
 .portfolio-cta{text-align:center;margin-top:40px}
 
 /* ═══════════════════════════════════════════════════════════════
-   PARCEIROS — marquee infinito (inspiração imagem 2)
+   TECNOLOGIAS DO PROJETO
    ═══════════════════════════════════════════════════════════════ */
 .parceiros{background:#fff;padding:90px 0 100px;overflow:hidden}
 .parceiros .section-head{margin-bottom:48px}
 .parceiros .section-head h2{font-size:38px}
-.marquee{
-  display:flex;overflow:hidden;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
-          mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+.tech-grid{
+  max-width:var(--container);margin:0 auto;padding:0 var(--pad-x);
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#E4E8EE;
+  border:1px solid #E4E8EE;
 }
-.marquee-track{
-  display:flex;flex-shrink:0;gap:48px;align-items:center;
-  animation:marquee 30s linear infinite;padding-right:48px;
+.tech-card{
+  min-height:150px;background:#fff;padding:28px;
+  display:flex;flex-direction:column;justify-content:space-between;gap:24px;
+  transition:background-color .35s ease,color .35s ease;
 }
-/* marquee NUNCA pausa — animation-play-state mantido em running */
-@keyframes marquee{
-  from{transform:translateX(0)}
-  to{transform:translateX(-50%)}
-}
-.partner-card{
-  flex:0 0 220px;height:140px;background:#fff;border:1px solid #EEE;
-  border-radius:var(--radius-card);
-  display:flex;align-items:center;justify-content:center;
-  padding:20px;text-align:center;
-  overflow:hidden;
-}
-.partner-card img{
-  max-width:100%;max-height:100px;width:auto;height:auto;
-  object-fit:contain;
-  filter:grayscale(15%);
-}
-/* Logo NAGA — fundo branco */
-.partner-card.partner-naga{
-  background:#fff;
-  padding:14px;
-  flex:0 0 240px;
-  height:160px;
-}
-.partner-card.partner-naga img{max-height:130px;max-width:92%;filter:none}
-/* Compatibilidade visual com a estrutura original do marquee */
-.partner-card.partner-double{
-  flex:0 0 320px;height:140px;
-  display:flex;align-items:center;justify-content:space-around;gap:10px;
-  padding:16px 14px;
-}
-.partner-card.partner-double img{max-height:100px;max-width:48%;object-fit:contain}
+.tech-card span{font-size:11px;font-weight:700;letter-spacing:.16em;color:var(--color-blue)}
+.tech-card strong{font-size:18px;letter-spacing:.02em}
+.tech-card small{font-size:13px;color:var(--color-muted);line-height:1.5}
+.tech-card:hover,.tech-card:focus-within{background:var(--color-black);color:#fff}
+.tech-card:hover small,.tech-card:focus-within small{color:rgba(255,255,255,.62)}
+@media(max-width:900px){.tech-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.tech-grid{grid-template-columns:1fr}.tech-card{min-height:120px}}
 
 /* ═══════════════════════════════════════════════════════════════
    SEÇÃO 08 — DEPOIMENTOS
@@ -1505,13 +1477,17 @@ footer{
 /* Ajustes de identidade, acessibilidade e setores */
 :focus-visible{outline:3px solid var(--color-gold);outline-offset:4px}
 section[id]{scroll-margin-top:88px}
-.discipline-card{font-family:var(--font-sans);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--color-black);font-size:13px}
+.section-head::after{content:'';display:block;width:72px;height:2px;background:var(--color-blue);margin-top:28px;transform-origin:left}
+@supports (animation-timeline:view()){
+  .section-head::after{animation:sectionRule linear both;animation-timeline:view();animation-range:entry 10% cover 32%}
+  @keyframes sectionRule{from{transform:scaleX(.15);opacity:.25}to{transform:scaleX(1);opacity:1}}
+}
 .sector-card{align-items:flex-start;flex-direction:column;gap:8px;text-align:left}
 .sector-card span{font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--color-blue)}
 .sector-card strong{font-family:var(--font-serif);font-size:26px;color:var(--color-black)}
 .sector-card small{font-size:13px;color:var(--color-muted)}
 .footer-logo-box{background:transparent;padding:0;box-shadow:none}
-@media(max-width:640px){.sector-card strong{font-size:20px}.discipline-card{font-size:11px}}
+@media(max-width:640px){.sector-card strong{font-size:20px}}
 </style>
 </head>
 <body>
