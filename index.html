@@ -16,7 +16,6 @@
 <meta name="robots" content="index, follow">
 <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
 
-<meta http-equiv="content-language" content="pt-BR">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
@@ -40,6 +39,14 @@
 <script src="vendor/lenis.min.js"></script>
 
 <style>
+@font-face{
+  font-family:'Moon Get';
+  src:url('fonts/moon-get-heavy.ttf') format('truetype');
+  font-style:normal;
+  font-weight:800;
+  font-display:swap;
+}
+
 /* ═══════════════════════════════════════════════════════════════
    DESIGN SYSTEM — VARIÁVEIS GLOBAIS
    ═══════════════════════════════════════════════════════════════ */
@@ -52,6 +59,7 @@
   --color-gray: #F6F7FA;
   --color-muted: #526174;
   --color-gold: #90F3DF;
+  --font-display: 'Moon Get', 'Arial Black', sans-serif;
   --font-serif: Georgia, 'Times New Roman', serif;
   --font-sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --container: 1280px;
@@ -92,7 +100,7 @@ ul{list-style:none}
 
 /* Tipografia */
 h1,h2,h3,h4{font-family:var(--font-serif);font-weight:600;line-height:1.15;letter-spacing:-.5px}
-h1{font-size:72px;font-weight:700;letter-spacing:-1px}
+h1{font-family:var(--font-display);font-size:72px;font-weight:800;letter-spacing:.015em}
 h2{font-size:48px}
 h3{font-size:28px;font-weight:500}
 .eyebrow{
@@ -153,7 +161,6 @@ section{padding:var(--pad-y) 0;position:relative}
   .btn-dark:hover{ transform:none; }
 
   /* Desativa hover scale em cards — evita flickering em touch */
-  .glow-wrap:hover{ transform:none; box-shadow:none; }
   .dif-card:hover .icon{ transform:none; }
 
   /* About image sem will-change */
@@ -164,6 +171,9 @@ section{padding:var(--pad-y) 0;position:relative}
 
   /* Conteúdo do portfólio permanece legível em dispositivos touch */
   .portfolio-card .pf-overlay{ transform:none; }
+  .portfolio-card .pf-overlay::before{ transform:scaleX(1); }
+  .portfolio-card .pf-meta,
+  .portfolio-card .pf-action{ opacity:1; }
 
   /* Depoimento sem transition pesada */
   .dep-slide{ transition:opacity .3s ease; }
@@ -173,39 +183,20 @@ section{padding:var(--pad-y) 0;position:relative}
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   LOADING SCREEN — linguagem de desenho técnico
+   LOADING SCREEN — composição preservada da primeira versão ESA
    ═══════════════════════════════════════════════════════════════ */
 #loader{
   position:fixed;inset:0;z-index:10000;
-  background-color:var(--color-black);
-  background-image:
-    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
-  background-size:64px 64px;
-  display:grid;place-items:center;
-  color:#fff;
+  background:var(--color-black);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;
 }
-.loader-frame{
-  width:min(460px,calc(100vw - 48px));
-  padding:42px;
-  border:1px solid rgba(255,255,255,.14);
-  position:relative;
+#loader .loader-logo{
+  display:flex;align-items:center;justify-content:center;
+  background:transparent;padding:0;border-radius:0;box-shadow:none;overflow:visible;
 }
-.loader-frame::before,.loader-frame::after{
-  content:'';position:absolute;background:var(--color-blue);
-}
-.loader-frame::before{width:28px;height:2px;left:-1px;top:-1px}
-.loader-frame::after{width:2px;height:28px;left:-1px;top:-1px}
-#loader .loader-logo{display:flex;align-items:center;justify-content:flex-start;overflow:hidden}
-#loader .loader-logo img{width:260px;height:auto;display:block;transform-origin:left center}
-.loader-kicker{
-  display:flex;justify-content:space-between;gap:24px;margin-top:34px;
-  font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
-  color:rgba(255,255,255,.5);
-}
-#loading-bar-wrap{width:100%;height:2px;margin-top:12px;background:rgba(255,255,255,.12);overflow:hidden}
-#loading-bar{height:100%;width:0;background:var(--color-blue);transform-origin:left}
-#loading-percent{color:#fff;font-variant-numeric:tabular-nums}
+#loader .loader-logo img{width:180px;height:auto;display:block}
+#loading-bar-wrap{width:200px;height:2px;background:rgba(255,255,255,.12);overflow:hidden}
+#loading-bar{height:100%;width:0;background:var(--color-blue)}
 
 /* ═══════════════════════════════════════════════════════════════
    SEÇÃO 01 — NAVBAR
@@ -319,7 +310,6 @@ section{padding:var(--pad-y) 0;position:relative}
       linear-gradient(rgba(27,79,216,0.06) 1px,transparent 1px),
       linear-gradient(90deg,rgba(27,79,216,0.06) 1px,transparent 1px);
     background-size:60px 60px;
-    mask-image:radial-gradient(ellipse 120% 100% at 80% 50%,black 30%,transparent 100%);
   }
 
   /* Glow lateral */
@@ -464,13 +454,12 @@ section{padding:var(--pad-y) 0;position:relative}
 }
 .hero-badge::before{
   content:'';width:6px;height:6px;border-radius:50%;background:var(--color-blue);
-  box-shadow:0 0 12px var(--color-blue);
 }
 .hero h1{
   margin-bottom:24px;color:#fff;
-  font-size:clamp(36px, 6.4vw, 78px);
-  line-height:1.1;
-  letter-spacing:-1px;
+  font-size:clamp(34px, 5.7vw, 70px);
+  line-height:1.08;
+  letter-spacing:.015em;
   word-break:keep-all;
   overflow-wrap:break-word;
   hyphens:none;
@@ -694,34 +683,43 @@ section{padding:var(--pad-y) 0;position:relative}
   flex:0 0 calc((100% - 24px*2.5) / 3.5);
   scroll-snap-align:start;
   height:480px;border-radius:var(--radius-card);
-  position:relative;overflow:hidden;cursor:default;
-  border:1px solid rgba(255,255,255,.1);
+  position:relative;overflow:hidden;cursor:pointer;
+  border:1px solid rgba(255,255,255,.12);
   background:#101927;
 }
 .portfolio-card .pf-bg{
   position:absolute;inset:0;
   background-size:cover;background-position:center;
-  transition:transform .7s cubic-bezier(.22,1,.36,1),filter .45s ease;
+  transition:transform .75s cubic-bezier(.22,1,.36,1),filter .4s ease;
 }
 .portfolio-card .pf-bg::before{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(7,17,30,.02) 35%,rgba(7,17,30,.88) 100%);
+  background:linear-gradient(180deg,rgba(7,17,30,.02) 42%,rgba(7,17,30,.82) 100%);
+  transition:background .4s ease;
 }
 .portfolio-card .pf-name{display:none}
 .portfolio-card .pf-overlay{
   position:absolute;left:0;right:0;bottom:0;
-  min-height:148px;padding:26px 28px 24px;color:#fff;
-  display:grid;grid-template-columns:1fr auto;align-items:end;gap:8px 20px;
-  border-top:2px solid transparent;
-  background:linear-gradient(180deg,transparent 0%,rgba(7,17,30,.78) 22%,rgba(7,17,30,.96) 100%);
-  transition:transform .45s cubic-bezier(.22,1,.36,1),border-color .35s ease;
+  padding:0 28px 25px;color:#fff;
+  display:grid;grid-template-columns:1fr auto;align-items:end;gap:7px 20px;
+  background:transparent;
+  transform:translateY(27px);
+  transition:transform .42s cubic-bezier(.22,1,.36,1);
+}
+.portfolio-card .pf-overlay::before{
+  content:'';position:absolute;left:28px;right:28px;top:-14px;height:2px;
+  background:var(--color-blue);transform:scaleX(.22);transform-origin:left;
+  transition:transform .42s cubic-bezier(.22,1,.36,1);
 }
 .portfolio-card .pf-overlay h3{font-size:27px;margin:0;grid-column:1/-1}
-.portfolio-card .pf-meta{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.68)}
-.portfolio-card .pf-action{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;white-space:nowrap}
+.portfolio-card .pf-meta{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.74);opacity:0;transition:opacity .3s ease}
+.portfolio-card .pf-action{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;white-space:nowrap;opacity:0;transition:opacity .3s ease}
 .portfolio-card .pf-action b{display:inline-block;margin-left:6px;color:var(--color-blue);transition:transform .3s ease}
-.portfolio-card:hover .pf-bg,.portfolio-card:focus-visible .pf-bg{transform:scale(1.018);filter:brightness(.86)}
-.portfolio-card:hover .pf-overlay,.portfolio-card:focus-visible .pf-overlay{transform:translateY(-6px);border-color:var(--color-blue)}
+.portfolio-card:hover .pf-bg,.portfolio-card:focus-visible .pf-bg{transform:scale(1.045);filter:brightness(.9)}
+.portfolio-card:hover .pf-bg::before,.portfolio-card:focus-visible .pf-bg::before{background:linear-gradient(180deg,rgba(7,17,30,.08) 25%,rgba(7,17,30,.88) 100%)}
+.portfolio-card:hover .pf-overlay,.portfolio-card:focus-visible .pf-overlay{transform:translateY(0)}
+.portfolio-card:hover .pf-overlay::before,.portfolio-card:focus-visible .pf-overlay::before{transform:scaleX(1)}
+.portfolio-card:hover .pf-meta,.portfolio-card:hover .pf-action,.portfolio-card:focus-visible .pf-meta,.portfolio-card:focus-visible .pf-action{opacity:1}
 .portfolio-card:hover .pf-action b,.portfolio-card:focus-visible .pf-action b{transform:translateX(5px)}
 .portfolio-cta{text-align:center;margin-top:40px}
 
@@ -731,23 +729,27 @@ section{padding:var(--pad-y) 0;position:relative}
 .parceiros{background:#fff;padding:90px 0 100px;overflow:hidden}
 .parceiros .section-head{margin-bottom:48px}
 .parceiros .section-head h2{font-size:38px}
-.tech-grid{
-  max-width:var(--container);margin:0 auto;padding:0 var(--pad-x);
-  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#E4E8EE;
-  border:1px solid #E4E8EE;
+.marquee{
+  display:flex;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
 }
+.marquee-track{display:flex;flex-shrink:0;width:max-content;animation:techMarquee 42s linear infinite}
+.tech-set{display:flex;flex-shrink:0;gap:20px;padding-right:20px}
 .tech-card{
-  min-height:150px;background:#fff;padding:28px;
-  display:flex;flex-direction:column;justify-content:space-between;gap:24px;
-  transition:background-color .35s ease,color .35s ease;
+  flex:0 0 250px;min-height:148px;background:#fff;padding:26px;
+  border:1px solid #E4E8EE;border-radius:var(--radius-card);
+  display:flex;flex-direction:column;justify-content:space-between;gap:20px;
+  transition:background-color .35s ease,color .35s ease,border-color .35s ease,transform .35s ease;
 }
 .tech-card span{font-size:11px;font-weight:700;letter-spacing:.16em;color:var(--color-blue)}
 .tech-card strong{font-size:18px;letter-spacing:.02em}
 .tech-card small{font-size:13px;color:var(--color-muted);line-height:1.5}
-.tech-card:hover,.tech-card:focus-within{background:var(--color-black);color:#fff}
-.tech-card:hover small,.tech-card:focus-within small{color:rgba(255,255,255,.62)}
-@media(max-width:900px){.tech-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:480px){.tech-grid{grid-template-columns:1fr}.tech-card{min-height:120px}}
+.tech-card:hover,.tech-card:focus-within{background:var(--color-black);border-color:var(--color-black);color:#fff;transform:translateY(-3px)}
+.tech-card:hover small,.tech-card:focus-within small{color:rgba(255,255,255,.66)}
+.marquee:hover .marquee-track,.marquee:focus-within .marquee-track{animation-play-state:paused}
+@keyframes techMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:640px){.tech-card{flex-basis:210px;min-height:132px;padding:22px}.marquee-track{animation-duration:34s}}
 
 /* ═══════════════════════════════════════════════════════════════
    SEÇÃO 08 — DEPOIMENTOS
@@ -881,7 +883,6 @@ section{padding:var(--pad-y) 0;position:relative}
 .cta-badge-dot{
   width:6px;height:6px;border-radius:50%;
   background:#4FC3F7;
-  box-shadow:0 0 8px #4FC3F7, 0 0 16px rgba(79,195,247,0.5);
   animation:dotPulse 2s ease-in-out infinite;
 }
 @keyframes dotPulse{
@@ -960,19 +961,13 @@ section{padding:var(--pad-y) 0;position:relative}
   padding:20px 52px;
   background:var(--color-blue);
   border:1px solid rgba(255,255,255,0.15);
-  box-shadow:
-    0 0 0 1px rgba(27,79,216,0.4),
-    0 8px 32px rgba(27,79,216,0.6),
-    0 1px 0 rgba(255,255,255,0.12) inset;
+  box-shadow:0 10px 24px rgba(0,0,0,.24);
   position:relative;overflow:hidden;
   transition:all .4s cubic-bezier(0.22,1,0.36,1);
 }
 .cta-central .btn-primary:hover{
   transform:translateY(-3px);
-  box-shadow:
-    0 0 0 1px rgba(27,79,216,0.6),
-    0 16px 48px rgba(27,79,216,0.7),
-    0 1px 0 rgba(255,255,255,0.18) inset;
+  box-shadow:0 14px 30px rgba(0,0,0,.3);
 }
 .cta-central .btn-primary::after{
   content:'';
@@ -1073,7 +1068,7 @@ section{padding:var(--pad-y) 0;position:relative}
   color:var(--color-blue);
 }
 .contato-info-card .icon svg{width:20px;height:20px;stroke:currentColor;stroke-width:1.8;fill:none}
-.contato-info-card h4{
+.contato-info-card h3{
   font-family:var(--font-sans);font-size:13px;font-weight:600;
   letter-spacing:.1em;text-transform:uppercase;color:var(--color-muted);
   margin-bottom:6px;
@@ -1325,6 +1320,9 @@ footer{
   .portfolio-scroll{ padding: 16px 18px 28px; margin: 0 -18px }
   .portfolio-card{ flex: 0 0 84%; height: 320px }
   .portfolio-card .pf-name{ font-size: 20px }
+  .portfolio-card .pf-overlay{ transform:none; padding:0 22px 20px }
+  .portfolio-card .pf-overlay::before{ left:22px;right:22px;transform:scaleX(1) }
+  .portfolio-card .pf-meta,.portfolio-card .pf-action{ opacity:1 }
   .portfolio-cta{ margin-top: 24px }
 
   /* Parceiros */
@@ -1379,7 +1377,7 @@ footer{
   .contato-info{ gap: 16px }
   .contato-info-card{ padding: 18px 16px; gap: 14px }
   .contato-info-card .icon{ width: 36px; height: 36px }
-  .contato-info-card h4{ font-size: 11px }
+  .contato-info-card h3{ font-size: 11px }
   .contato-info-card p, .contato-info-card a{ font-size: 14px }
 
   /* Footer */
@@ -1392,7 +1390,6 @@ footer{
   footer{ padding: 56px 0 24px }
 
   /* Hover/transforms — desativa em touch */
-  .glow-wrap:hover{ transform: none }
   .emp-card:hover{ transform: none }
   .cliente-card:hover{ transform: none }
   .contato-info-card:hover{ transform: none; box-shadow: none }
@@ -1453,11 +1450,8 @@ section[id]{scroll-margin-top:88px}
      LOADING SCREEN
      ═══════════════════════════════════════════════════════════════ -->
 <div id="loader" role="status" aria-label="Carregando Construtora">
-  <div class="loader-frame">
-    <div class="loader-logo"><img src="images/logo-construtora.svg" alt="Construtora"></div>
-    <div class="loader-kicker"><span>Preparando o projeto</span><span id="loading-percent">00%</span></div>
-    <div id="loading-bar-wrap"><div id="loading-bar"></div></div>
-  </div>
+  <div class="loader-logo"><img src="images/logo-construtora.svg" alt="Construtora"></div>
+  <div id="loading-bar-wrap"><div id="loading-bar"></div></div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════
@@ -1566,7 +1560,7 @@ section[id]{scroll-margin-top:88px}
 <section class="about" id="sobre">
   <div class="container">
     <div class="about-grid">
-      <div class="about-image reveal-left" aria-label="Equipe Construtora" data-parallax="0.15">
+      <div class="about-image reveal-left" role="img" aria-label="Referência arquitetônica da Construtora" data-parallax="0.15">
         <div class="img-inner" style="background-image:url('images/architecture-06.webp');">
           <span>Estratégia, projeto e execução<br><small style="font-family:var(--font-sans);font-size:13px;letter-spacing:.1em;text-transform:uppercase;opacity:.85">Engenharia que valoriza cada detalhe</small></span>
         </div>
@@ -1594,11 +1588,11 @@ section[id]{scroll-margin-top:88px}
       <p>Conheça empreendimentos desenvolvidos para diferentes formas de viver, trabalhar e compartilhar a cidade.</p>
     </div>
 
-    <div class="filter-tabs" role="tablist">
-      <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true">Todos</button>
-      <button class="filter-tab" data-filter="lancamento" role="tab" aria-selected="false">Lançamentos</button>
-      <button class="filter-tab" data-filter="obras" role="tab" aria-selected="false">Em obras</button>
-      <button class="filter-tab" data-filter="entregue" role="tab" aria-selected="false">Entregues</button>
+    <div class="filter-tabs" role="group" aria-label="Filtrar empreendimentos">
+      <button class="filter-tab active" data-filter="all" aria-pressed="true">Todos</button>
+      <button class="filter-tab" data-filter="lancamento" aria-pressed="false">Lançamentos</button>
+      <button class="filter-tab" data-filter="obras" aria-pressed="false">Em obras</button>
+      <button class="filter-tab" data-filter="entregue" aria-pressed="false">Entregues</button>
     </div>
 
     <div class="empreendimentos-grid" id="emp-grid">
@@ -1608,7 +1602,7 @@ section[id]{scroll-margin-top:88px}
           <span class="emp-badge lancamento">Lançamento</span>
           <h3>Residencial Horizonte</h3>
           <p class="bairro">Distrito Atlântico · Residencial</p>
-          <a href="#contato" class="conhecer">Conhecer projeto →</a>
+          <a href="#portfolio" class="conhecer">Ver no portfólio →</a>
         </div>
       </article>
       <article class="emp-card reveal-stagger" data-status="obras">
@@ -1617,7 +1611,7 @@ section[id]{scroll-margin-top:88px}
           <span class="emp-badge obras">Em obras</span>
           <h3>Torre Lume</h3>
           <p class="bairro">Eixo Central · Uso misto</p>
-          <a href="#contato" class="conhecer">Conhecer projeto →</a>
+          <a href="#portfolio" class="conhecer">Ver no portfólio →</a>
         </div>
       </article>
       <article class="emp-card reveal-stagger" data-status="entregue">
@@ -1626,7 +1620,7 @@ section[id]{scroll-margin-top:88px}
           <span class="emp-badge entregue">Entregue</span>
           <h3>Pátios da Serra</h3>
           <p class="bairro">Vale Norte · Residencial</p>
-          <a href="#contato" class="conhecer">Conhecer projeto →</a>
+          <a href="#portfolio" class="conhecer">Ver no portfólio →</a>
         </div>
       </article>
       <article class="emp-card reveal-stagger" data-status="entregue">
@@ -1635,7 +1629,7 @@ section[id]{scroll-margin-top:88px}
           <span class="emp-badge entregue">Entregue</span>
           <h3>Centro Comunitário Orbe</h3>
           <p class="bairro">Parque Orbe · Institucional</p>
-          <a href="#contato" class="conhecer">Conhecer projeto →</a>
+          <a href="#portfolio" class="conhecer">Ver no portfólio →</a>
         </div>
       </article>
       <article class="emp-card reveal-stagger" data-status="entregue">
@@ -1644,7 +1638,7 @@ section[id]{scroll-margin-top:88px}
           <span class="emp-badge entregue">Entregue</span>
           <h3>Pavilhão Aurora</h3>
           <p class="bairro">Jardins Aurora · Cultural</p>
-          <a href="#contato" class="conhecer">Conhecer projeto →</a>
+          <a href="#portfolio" class="conhecer">Ver no portfólio →</a>
         </div>
       </article>
       <article class="emp-card reveal-stagger" data-status="obras">
@@ -1653,7 +1647,7 @@ section[id]{scroll-margin-top:88px}
           <span class="emp-badge obras">Em obras</span>
           <h3>Hub Vetor</h3>
           <p class="bairro">Eixo Vetor · Industrial</p>
-          <a href="#contato" class="conhecer">Conhecer projeto →</a>
+          <a href="#portfolio" class="conhecer">Ver no portfólio →</a>
         </div>
       </article>
     </div>
@@ -1783,30 +1777,30 @@ section[id]{scroll-margin-top:88px}
       <p>Estudos visuais que exploram escala, materialidade e relações mais humanas com a cidade.</p>
     </div>
   </div>
-  <div class="portfolio-scroll" id="portfolio-scroll" tabindex="0" aria-label="Portfólio - role horizontalmente">
-    <article class="portfolio-card">
-      <div class="pf-bg" style="background-image:url('images/architecture-05.webp');"><div class="pf-name" style="position:relative;z-index:2">Casa Pátio<br>Residencial</div></div>
-      <div class="pf-overlay"><h3>Casa Pátio</h3><span>Moradia e paisagem · Projeto Construtora</span></div>
+  <div class="portfolio-scroll" id="portfolio-scroll" role="region" tabindex="0" aria-label="Portfólio — role horizontalmente">
+    <article class="portfolio-card" tabindex="0">
+      <div class="pf-bg" style="background-image:url('images/architecture-05.webp');" aria-hidden="true"></div>
+      <div class="pf-overlay"><h3>Casa Pátio</h3><span class="pf-meta">Moradia e paisagem</span><span class="pf-action">Explorar <b>→</b></span></div>
     </article>
-    <article class="portfolio-card">
-      <div class="pf-bg" style="background-image:url('images/architecture-06.webp');"><div class="pf-name" style="position:relative;z-index:2">Galeria Norte<br>Comercial</div></div>
-      <div class="pf-overlay"><h3>Galeria Norte</h3><span>Uso misto · Projeto Construtora</span></div>
+    <article class="portfolio-card" tabindex="0">
+      <div class="pf-bg" style="background-image:url('images/architecture-06.webp');" aria-hidden="true"></div>
+      <div class="pf-overlay"><h3>Galeria Norte</h3><span class="pf-meta">Uso misto</span><span class="pf-action">Explorar <b>→</b></span></div>
     </article>
-    <article class="portfolio-card">
-      <div class="pf-bg" style="background-image:url('images/architecture-08.webp');"><div class="pf-name" style="position:relative;z-index:2">Núcleo Orbe<br>Institucional</div></div>
-      <div class="pf-overlay"><h3>Núcleo Orbe</h3><span>Equipamento coletivo · Projeto Construtora</span></div>
+    <article class="portfolio-card" tabindex="0">
+      <div class="pf-bg" style="background-image:url('images/architecture-08.webp');" aria-hidden="true"></div>
+      <div class="pf-overlay"><h3>Núcleo Orbe</h3><span class="pf-meta">Equipamento coletivo</span><span class="pf-action">Explorar <b>→</b></span></div>
     </article>
-    <article class="portfolio-card">
-      <div class="pf-bg" style="background-image:url('images/architecture-08.webp');"><div class="pf-name" style="position:relative;z-index:2">Pavilhão Lume<br>Cultural</div></div>
-      <div class="pf-overlay"><h3>Pavilhão Lume</h3><span>Cultura e encontro · Projeto Construtora</span></div>
+    <article class="portfolio-card" tabindex="0">
+      <div class="pf-bg" style="background-image:url('images/architecture-08.webp');" aria-hidden="true"></div>
+      <div class="pf-overlay"><h3>Pavilhão Lume</h3><span class="pf-meta">Cultura e encontro</span><span class="pf-action">Explorar <b>→</b></span></div>
     </article>
-    <article class="portfolio-card">
-      <div class="pf-bg" style="background-image:url('images/architecture-01.webp');"><div class="pf-name" style="position:relative;z-index:2">Vetor Log<br>Industrial</div></div>
-      <div class="pf-overlay"><h3>Vetor Log</h3><span>Eficiência operacional · Projeto Construtora</span></div>
+    <article class="portfolio-card" tabindex="0">
+      <div class="pf-bg" style="background-image:url('images/architecture-01.webp');" aria-hidden="true"></div>
+      <div class="pf-overlay"><h3>Vetor Log</h3><span class="pf-meta">Eficiência operacional</span><span class="pf-action">Explorar <b>→</b></span></div>
     </article>
   </div>
   <div class="container portfolio-cta">
-    <a href="#contato" class="btn btn-secondary">Solicitar apresentação</a>
+    <a href="#contato" class="btn btn-secondary">Solicitar orçamento</a>
   </div>
 </section>
 
@@ -1821,15 +1815,29 @@ section[id]{scroll-margin-top:88px}
       <p>Uma base front-end leve, acessível e independente de serviços externos para sustentar conteúdo, movimento e desempenho.</p>
     </div>
   </div>
-  <div class="tech-grid" aria-label="Stack do projeto">
-    <article class="tech-card"><span>01</span><strong>HTML5</strong><small>Estrutura semântica e acessível.</small></article>
-    <article class="tech-card"><span>02</span><strong>CSS3</strong><small>Layout responsivo e scroll-driven motion.</small></article>
-    <article class="tech-card"><span>03</span><strong>JavaScript ES6+</strong><small>Interações sem framework.</small></article>
-    <article class="tech-card"><span>04</span><strong>GSAP</strong><small>Loader, hero e microinterações.</small></article>
-    <article class="tech-card"><span>05</span><strong>ScrollTrigger</strong><small>Revelações orientadas pela leitura.</small></article>
-    <article class="tech-card"><span>06</span><strong>Lenis</strong><small>Rolagem suave em desktop.</small></article>
-    <article class="tech-card"><span>07</span><strong>SVG</strong><small>Marca e ícones vetoriais.</small></article>
-    <article class="tech-card"><span>08</span><strong>WebP</strong><small>Imagens locais otimizadas.</small></article>
+  <div class="marquee" role="region" aria-label="Tecnologias usadas neste projeto">
+    <div class="marquee-track">
+      <div class="tech-set">
+        <article class="tech-card"><span>01</span><strong>HTML5</strong><small>Estrutura semântica e acessível.</small></article>
+        <article class="tech-card"><span>02</span><strong>CSS3</strong><small>Layout responsivo e animação nativa.</small></article>
+        <article class="tech-card"><span>03</span><strong>JavaScript ES6+</strong><small>Interações sem framework.</small></article>
+        <article class="tech-card"><span>04</span><strong>GSAP</strong><small>Loader, hero e microinterações.</small></article>
+        <article class="tech-card"><span>05</span><strong>ScrollTrigger</strong><small>Revelações orientadas pela leitura.</small></article>
+        <article class="tech-card"><span>06</span><strong>Lenis</strong><small>Rolagem suave em desktop.</small></article>
+        <article class="tech-card"><span>07</span><strong>SVG</strong><small>Marca e ícones vetoriais.</small></article>
+        <article class="tech-card"><span>08</span><strong>WebP</strong><small>Imagens locais otimizadas.</small></article>
+      </div>
+      <div class="tech-set" aria-hidden="true">
+        <article class="tech-card"><span>01</span><strong>HTML5</strong><small>Estrutura semântica e acessível.</small></article>
+        <article class="tech-card"><span>02</span><strong>CSS3</strong><small>Layout responsivo e animação nativa.</small></article>
+        <article class="tech-card"><span>03</span><strong>JavaScript ES6+</strong><small>Interações sem framework.</small></article>
+        <article class="tech-card"><span>04</span><strong>GSAP</strong><small>Loader, hero e microinterações.</small></article>
+        <article class="tech-card"><span>05</span><strong>ScrollTrigger</strong><small>Revelações orientadas pela leitura.</small></article>
+        <article class="tech-card"><span>06</span><strong>Lenis</strong><small>Rolagem suave em desktop.</small></article>
+        <article class="tech-card"><span>07</span><strong>SVG</strong><small>Marca e ícones vetoriais.</small></article>
+        <article class="tech-card"><span>08</span><strong>WebP</strong><small>Imagens locais otimizadas.</small></article>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1845,7 +1853,7 @@ section[id]{scroll-margin-top:88px}
     <div class="dep-carousel">
       <div class="dep-track" id="dep-track">
         <article class="dep-slide active">
-          <div class="dep-stars" aria-label="5 estrelas">
+          <div class="dep-stars" role="img" aria-label="5 estrelas">
             <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg>
             <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg>
             <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg>
@@ -1859,7 +1867,7 @@ section[id]{scroll-margin-top:88px}
           </div>
         </article>
         <article class="dep-slide">
-          <div class="dep-stars" aria-label="5 estrelas">
+          <div class="dep-stars" role="img" aria-label="5 estrelas">
             <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg>
             <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg>
             <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg>
@@ -1873,7 +1881,7 @@ section[id]{scroll-margin-top:88px}
           </div>
         </article>
         <article class="dep-slide">
-          <div class="dep-stars" aria-label="5 estrelas">
+          <div class="dep-stars" role="img" aria-label="5 estrelas">
             <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg>
             <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg>
             <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg>
@@ -2011,7 +2019,7 @@ section[id]{scroll-margin-top:88px}
       <p>Compartilhe os primeiros detalhes do seu projeto. Nossa equipe está pronta para entender seus objetivos.</p>
     </div>
     <div class="contato-grid">
-      <form class="form-card" id="contact-form" action="" method="post" novalidate>
+      <form class="form-card" id="contact-form" method="post" novalidate>
         <div class="form-row">
           <div class="form-group">
             <label for="nome">Nome completo<span class="req">*</span></label>
@@ -2050,15 +2058,15 @@ section[id]{scroll-margin-top:88px}
       <aside class="contato-info" aria-label="Diferenciais do atendimento Construtora">
         <div class="contato-info-card">
           <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-          <div><h4>Atendimento consultivo</h4><p>Entendemos objetivos, prioridades e contexto antes de propor cada solução.</p></div>
+          <div><h3>Atendimento consultivo</h3><p>Entendemos objetivos, prioridades e contexto antes de propor cada solução.</p></div>
         </div>
         <div class="contato-info-card">
           <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 12l3 3 5-7"/></svg></div>
-          <div><h4>Planejamento integrado</h4><p>Arquitetura, engenharia e gestão trabalhando de forma coordenada.</p></div>
+          <div><h3>Planejamento integrado</h3><p>Arquitetura, engenharia e gestão trabalhando de forma coordenada.</p></div>
         </div>
         <div class="contato-info-card">
           <div class="icon"><svg viewBox="0 0 24 24"><path d="M3 12h18M12 3v18"/></svg></div>
-          <div><h4>Relacionamento próximo</h4><p>Comunicação clara e acompanhamento do primeiro contato à entrega.</p></div>
+          <div><h3>Relacionamento próximo</h3><p>Comunicação clara e acompanhamento do primeiro contato à entrega.</p></div>
         </div>
       </aside>
     </div>
@@ -2076,7 +2084,7 @@ section[id]{scroll-margin-top:88px}
     <div class="footer-top">
       <div class="footer-brand">
         <div class="footer-logo-box"><img src="images/logo-construtora.svg" alt="Construtora" loading="lazy"></div>
-        <p>Construtora premium do Rio de Janeiro. Design + engenharia entregando obras com técnica, transparência e responsabilidade.</p>
+        <p>Design e engenharia integrados para entregar espaços com técnica, transparência e responsabilidade.</p>
         </div>
       <div class="footer-col">
         <h4>Navegação</h4>
@@ -2147,7 +2155,7 @@ const isMobile = window.innerWidth < 1024 || isTouch;
   document.body.style.overflow = 'hidden';
 
   if(window.gsap){
-    gsap.to(bar, { width: '100%', duration: .7, ease: 'power2.out',
+    gsap.to(bar, { width: '100%', duration: 1.8, ease: 'power1.inOut',
       onComplete: () => {
         gsap.to(loader, { opacity: 0, duration: .6, ease: 'power2.out',
           onComplete: () => {
@@ -2160,7 +2168,7 @@ const isMobile = window.innerWidth < 1024 || isTouch;
       }
     });
   } else {
-    bar.style.transition = 'width .7s';
+    bar.style.transition = 'width 1.8s ease-in-out';
     bar.style.width = '100%';
     setTimeout(() => {
       loader.style.opacity = '0';
@@ -2171,7 +2179,7 @@ const isMobile = window.innerWidth < 1024 || isTouch;
         sessionStorage.setItem('construtora_loaded','1');
         initAnimations();
       }, 600);
-    }, 700);
+    }, 1800);
   }
 })();
 
@@ -2259,110 +2267,6 @@ document.addEventListener('keydown', e => {
 });
 
 /* ════════════════════════════════════════════════════════════════
-   6. THREE.JS — PRODUCT 3D REVEAL (interativo)
-   Cubo de vidro/cristal flutuante revelado ao scroll na seção
-   "Por que Construtora". Renderização sob demanda apenas quando visível.
-   ════════════════════════════════════════════════════════════════ */
-let threeAnimating = false;
-function initThreeProduct(){
-  if(!window.THREE || reduceMotion) return;
-  const mount = document.getElementById('product-3d');
-  if(!mount) return;
-
-  const w = mount.clientWidth || 480;
-  const h = mount.clientHeight || 480;
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(40, w/h, 0.1, 1000);
-  camera.position.set(0, 0, 6);
-
-  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(w, h, false);
-  mount.appendChild(renderer.domElement);
-
-  // Luzes
-  const ambient = new THREE.AmbientLight(0xffffff, 0.55);
-  scene.add(ambient);
-  const dir = new THREE.DirectionalLight(0x9ec5ff, 1.4);
-  dir.position.set(3, 4, 5);
-  scene.add(dir);
-  const back = new THREE.DirectionalLight(0x2864FF, 0.9);
-  back.position.set(-4, -2, -3);
-  scene.add(back);
-
-  // Edifício/torre estilizado (representando construção Construtora)
-  const group = new THREE.Group();
-
-  const tower = new THREE.Mesh(
-    new THREE.BoxGeometry(1.2, 2.6, 1.2),
-    new THREE.MeshStandardMaterial({
-      color: 0x2864FF, metalness: 0.6, roughness: 0.25,
-      transparent: true, opacity: 0.92
-    })
-  );
-  group.add(tower);
-
-  const top = new THREE.Mesh(
-    new THREE.BoxGeometry(0.9, 0.6, 0.9),
-    new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.9, roughness: 0.15 })
-  );
-  top.position.y = 1.6;
-  group.add(top);
-
-  const base = new THREE.Mesh(
-    new THREE.BoxGeometry(1.6, 0.25, 1.6),
-    new THREE.MeshStandardMaterial({ color: 0x0D0D0D, metalness: 0.4, roughness: 0.5 })
-  );
-  base.position.y = -1.42;
-  group.add(base);
-
-  // Anel de luz cyan (interativo — produto destacado)
-  const ring = new THREE.Mesh(
-    new THREE.TorusGeometry(2, 0.02, 16, 100),
-    new THREE.MeshBasicMaterial({ color: 0x00E9E9, transparent: true, opacity: 0.7 })
-  );
-  ring.rotation.x = Math.PI / 2;
-  ring.position.y = -1.3;
-  group.add(ring);
-
-  scene.add(group);
-  group.rotation.y = -0.6;
-  group.scale.set(0.6, 0.6, 0.6);
-
-  function resize(){
-    const ww = mount.clientWidth, hh = mount.clientHeight;
-    if(ww === 0 || hh === 0) return;
-    camera.aspect = ww/hh;
-    camera.updateProjectionMatrix();
-    renderer.setSize(ww, hh, false);
-  }
-  window.addEventListener('resize', resize);
-
-  // expor para ScrollTrigger
-  window.__luminaProduct = { scene, camera, renderer, group, ring };
-
-  function render(){
-    if(!threeAnimating) return;
-    group.rotation.y += 0.004;
-    ring.rotation.z += 0.006;
-    renderer.render(scene, camera);
-    requestAnimationFrame(render);
-  }
-
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if(en.isIntersecting){
-        if(!threeAnimating){ threeAnimating = true; render(); }
-      } else {
-        threeAnimating = false;
-      }
-    });
-  }, { threshold: 0.05 });
-  io.observe(mount);
-}
-
-/* ════════════════════════════════════════════════════════════════
    7. ANIMAÇÕES GSAP
    ════════════════════════════════════════════════════════════════ */
 function initAnimations(){
@@ -2378,7 +2282,6 @@ function initAnimations(){
     document.querySelectorAll('.counter').forEach(el => {
       el.textContent = Number(el.dataset.target).toLocaleString('pt-BR');
     });
-    initThreeProduct();
     return;
   }
 
@@ -2458,7 +2361,6 @@ function initAnimations(){
     });
   });
 
-  initThreeProduct();
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -2466,11 +2368,16 @@ function initAnimations(){
    ════════════════════════════════════════════════════════════════ */
 const filterTabs = document.querySelectorAll('.filter-tab');
 const empCards = document.querySelectorAll('#emp-grid .emp-card');
+function activateProjectFilter(filter){
+  const tab = Array.from(filterTabs).find(item => item.dataset.filter === filter);
+  if(tab) tab.click();
+}
+
 filterTabs.forEach(tab => {
   tab.addEventListener('click', () => {
-    filterTabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+    filterTabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-pressed','false'); });
     tab.classList.add('active');
-    tab.setAttribute('aria-selected','true');
+    tab.setAttribute('aria-pressed','true');
     const f = tab.dataset.filter;
     empCards.forEach(card => {
       const show = (f === 'all') || card.dataset.status === f;
@@ -2485,6 +2392,12 @@ filterTabs.forEach(tab => {
         card.style.display = show ? '' : 'none';
       }
     });
+  });
+});
+
+document.querySelectorAll('[data-filter-link]').forEach(link => {
+  link.addEventListener('click', () => {
+    window.setTimeout(() => activateProjectFilter(link.dataset.filterLink), 80);
   });
 });
 
@@ -2581,88 +2494,6 @@ sections.forEach(s => navIO.observe(s));
 
 </script>
 
-
-<style>
-/* ── GLOWING BORDER — wrapper necessário para o efeito ── */
-.glow-wrap{
-  position:relative;
-  border-radius:var(--radius-card);
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
-  /* Transição no wrapper — glow e card sobem juntos */
-  transition:transform .45s cubic-bezier(0.22,1,0.36,1), box-shadow .45s ease;
-}
-.glow-wrap:hover{
-  transform:translateY(-6px);
-}
-/* Box-shadow separado por seção (branca vs preta) */
-.diferenciais .glow-wrap:hover{
-  box-shadow:0 24px 48px rgba(27,79,216,0.12), 0 8px 20px rgba(0,0,0,0.08);
-}
-.servicos .glow-wrap:hover{
-  box-shadow:0 24px 48px rgba(27,79,216,0.22), 0 8px 20px rgba(0,0,0,0.5);
-}
-/* O gradiente que forma o glow na borda */
-.glow-wrap::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  border-radius:inherit;
-  background:radial-gradient(circle 140px at var(--mx,50%) var(--my,0%),
-    rgba(27,79,216,1)   0%,
-    rgba(27,79,216,0.4) 40%,
-    transparent         70%
-  );
-  opacity:0;
-  transition:opacity .35s ease;
-  z-index:0;
-  pointer-events:none;
-}
-.glow-wrap:hover::before{ opacity:1 }
-
-/* Card cobre o interior — só o gap de 1px fica exposto como borda brilhante */
-.glow-wrap .dif-card,
-.glow-wrap .svc-card{
-  position:relative;
-  z-index:1;
-  margin:1px;
-  flex:1;
-  border-radius:calc(var(--radius-card) - 1px);
-}
-</style>
-
-<script>
-/* ── GLOWING BORDER — glow na borda segue o mouse ── */
-(function(){
-  /* Em touch devices, mousemove não existe — evitar listeners desnecessários */
-  if(isMobile) return;
-
-  function wrapCards(selector){
-    document.querySelectorAll(selector).forEach(card => {
-      // Envolve o card num wrapper se ainda não tiver
-      if(!card.parentElement.classList.contains('glow-wrap')){
-        const wrap = document.createElement('div');
-        wrap.className = 'glow-wrap';
-        card.parentNode.insertBefore(wrap, card);
-        wrap.appendChild(card);
-      }
-      const wrap = card.parentElement;
-
-      wrap.addEventListener('mousemove', e => {
-        const rect = wrap.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width)  * 100;
-        const y = ((e.clientY - rect.top)  / rect.height) * 100;
-        wrap.style.setProperty('--mx', x + '%');
-        wrap.style.setProperty('--my', y + '%');
-      });
-    });
-  }
-
-  wrapCards('.svc-card');
-  wrapCards('.dif-card');
-})();
-</script>
 
 </body>
 </html>
